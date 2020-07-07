@@ -1,0 +1,51 @@
+{
+    "basics": {
+      "name": "John Doe",
+      "label": "Programmer",
+      "email": "john@gmail.com",
+      "phone": "(912) 555-4321",
+      "website": "http://johndoe.com",
+      "summary": "A brief summary on who I am",
+      "location": {
+        "country": "The Johnited States Of Doe",
+        "address": "2712 Broadway St",
+        "city": "San Francisco"
+      },
+      "profiles": [{
+        "network": "Twitter",
+        "username": "john",
+        "url": "http://twitter.com/john"
+      }]
+    },
+    "work": [{
+      "company": "Company",
+      "position": "President",
+      "website": "http://company.com",
+      "start_date": "2013-01-01",
+      "end_date": "2014-01-01",
+      "summary": "Description..."
+    }],
+    "projects": [{
+      "name": "An app to track time",
+      "description": "A web and mobile application that allowed 2500 people to track their working time"
+    }],
+    "education": [{
+      "institution": "University",
+      "area": "Software Development",
+      "study_type": "Bachelor",
+      "start_date": "2011-01-01",
+      "end_date": "2013-01-01",
+      "courses": [
+        "DB1101 - Basic SQL"
+      ],
+      "location": "Washington DC, US"
+    }],
+    "skills": [{
+      "name": "Web Development",
+      "level": "Master"
+    }],
+    "languages": [{
+      "language": "English",
+      "level": "Native speaker"
+    }]
+  }
