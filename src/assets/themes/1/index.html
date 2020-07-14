@@ -30,7 +30,6 @@
 </head>
 
 <body>
-
     <div id="page-wrap">
     
         <div id="contact-info" class="vcard">
@@ -38,6 +37,16 @@
             <!-- Microformats! -->
         
             <h1 class="fn">{{basics.name}}</h1>
+            <h2>{{basics.location.country}}</h2>
+            <br>
+            Profiles:
+            {! basics.profiles
+                <div class="profile-box">
+                    <div class="profile-title">{network}</div>
+                    <div class="profile-username">{username}</div>
+                    <div class="profile-url">{url}</div>
+                </div>
+            !}
         
             <p>
                 Cell: <span class="tel">555-666-7777</span><br />
@@ -108,11 +117,8 @@
             
             <dd class="clear"></dd>
         </dl>
-        
         <div class="clear"></div>
-    
     </div>
-
 </body>
 
 </html>

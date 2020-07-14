@@ -51,7 +51,4 @@ fn build_template() {
 
     fs::write(OUTPUT_HTML_FILE_NAME, result)
         .expect("Cannot write the result to html file");
-    // TODO:
-    // 1. Remove double quotes around replaced variables in HTML
-    // 2. Create a HTML template with the vars and test
 }
