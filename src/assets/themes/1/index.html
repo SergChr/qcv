@@ -6,118 +6,85 @@
 <head>
      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-     <title>One Page Resume</title>
-
+     <title>{{basics.name}}'s resume</title>
+     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
      <style type="text/css">
         * { margin: 0; padding: 0; }
-        body { font: 16px Helvetica, Sans-Serif; line-height: 24px; background: url(images/noise.jpg); }
-        .clear { clear: both; }
-        #page-wrap { width: 800px; margin: 40px auto 60px; }
-        #pic { float: right; margin: -30px 0 0 0; }
-        h1 { margin: 0 0 16px 0; padding: 0 0 16px 0; font-size: 42px; font-weight: bold; letter-spacing: -2px; border-bottom: 1px solid #999; }
-        h2 { font-size: 20px; margin: 0 0 6px 0; position: relative; }
-        h2 span { position: absolute; bottom: 0; right: 0; font-style: italic; font-family: Georgia, Serif; font-size: 16px; color: #999; font-weight: normal; }
-        p { margin: 0 0 16px 0; }
-        a { color: #999; text-decoration: none; border-bottom: 1px dotted #999; }
-        a:hover { border-bottom-style: solid; color: black; }
-        ul { margin: 0 0 32px 17px; }
-        #objective { width: 500px; float: left; }
-        #objective p { font-family: Georgia, Serif; font-style: italic; color: #666; }
-        dt { font-style: italic; font-weight: bold; font-size: 18px; text-align: right; padding: 0 26px 0 0; width: 150px; float: left; height: 100px; border-right: 1px solid #999;  }
-        dd { width: 600px; float: right; }
-        dd.clear { float: none; margin: 0; height: 15px; }
      </style>
 </head>
 
-<body>
-    <div id="page-wrap">
-    
-        <div id="contact-info" class="vcard">
-        
-            <!-- Microformats! -->
-        
-            <h1 class="fn">{{basics.name}}</h1>
-            <h2>{{basics.location.country}}</h2>
-            <br>
-            Profiles:
-            {! basics.profiles
-                <div class="profile-box">
-                    <div class="profile-title">{network}</div>
-                    <div class="profile-username">{username}</div>
-                    <div class="profile-url">{url}</div>
+<body class="flex justify-center font-sans bg-gray-100">
+    <div class="main flex flex-col p-1 w-9/12 bg-white rounded-sm p-6 shadow-sm">
+        <section id="header">
+            <div class="font-bold text-2xl">{{basics.name}}</div>
+            <div>{{basics.label}}</div>
+            <div class="font-light">{{basics.location.address}}, {{basics.location.city}}, {{basics.location.country}}</div>
+            <div class="font-light">
+                <a href="mailto:{{basics.email}}">{{basics.email}}</a>
+                | {{basics.phone}}
+                <br>
+                <a href="{{basics.website}}" class="underline">{{basics.website}}</a>
+            </div>
+            <div class="font-light my-1 text-gray-600">{{basics.summary}}</div>
+            <div>
+                {!basics.profiles
+                    <a class="font-light mx-2" href="{url}">{network}:{username}</a>
+                !}
+            </div>
+        </section>
+
+        <hr class="my-6">
+        <div class="font-hairline my-2 text-gray-500">Education</div>
+
+        <section id="education" class="p-4">
+            {!education
+                <div class="font-bold uppercase">{institution}</div>
+                <div class="font-thin text-xs my-1">{location}</div>
+                <div>{area} - {study_type} | {start_date} - {end_date}</div>
+            !}
+        </section>
+
+        <hr class="my-6">
+        <div class="font-hairline my-2 text-gray-500">Work experience</div>
+
+        <section id="work" class="p-4">
+            {!work
+                <a href="{website}" class="font-bold uppercase">{company}</a>
+                <div class="font-thin my-1">{position} | {start_date} - {end_date}</div>
+                <div>{summary}</div>
+            !}
+        </section>
+
+        <hr class="my-6">
+        <div class="font-hairline my-2 text-gray-500">Projects</div>
+
+        <section id="projects" class="p-4">
+            {!projects
+                <div class="font-bold">{name}</div>
+                <div class="font-light text-sm">{description}</div>
+            !}
+        </section>
+
+        <hr class="my-6">
+        <div class="font-hairline my-2 text-gray-500">Skills</div>
+
+        <section id="skills" class="p-4 flex">
+            {!skills
+                <div class="text-sm bg-gray-600 p-2 text-gray-200 rounded-sm">{name}</div>
+            !}
+        </section>
+
+        <hr class="my-6">
+        <div class="font-hairline my-2 text-gray-500">Languages</div>
+
+        <section id="skills" class="flex flex-row">
+            {!languages
+                <div class="flex flex-col px-4 py-2 m-2">
+                    <div class="font-bold">{language}</div>
+                    <div class="font-light">{level}</div>
                 </div>
             !}
-        
-            <p>
-                Cell: <span class="tel">555-666-7777</span><br />
-                Email: <a class="email" href="mailto:greatoldone@lovecraft.com">greatoldone@lovecraft.com</a>
-            </p>
-        </div>
-                
-        <div id="objective">
-            <p>
-                I am an outgoing and energetic (ask anybody) young professional, seeking a 
-                career that fits my professional skills, personality, and murderous tendencies. 
-                My squid-like head is a masterful problem solver and inspires fear in who gaze upon it. 
-                I can bring world domination to your organization. 
-            </p>
-        </div>
-        
-        <div class="clear"></div>
-        
-        <dl>
-            <dd class="clear"></dd>
-            
-            <dt>Education</dt>
-            <dd>
-                <h2>Withering Madness University - Planet Vhoorl</h2>
-                <p><strong>Major:</strong> Public Relations<br />
-                   <strong>Minor:</strong> Scale Tending</p>
-            </dd>
-            
-            <dd class="clear"></dd>
-            
-            <dt>Skills</dt>
-            <dd>
-                <h2>Office skills</h2>
-                <p>Office and records management, database administration, event organization, customer support, travel coordination</p>
-                
-                <h2>Computer skills</h2>
-                <p>Microsoft productivity software (Word, Excel, etc), Adobe Creative Suite, Windows</p>
-            </dd>
-            
-            <dd class="clear"></dd>
-            
-            <dt>Experience</dt>
-            <dd>
-                <h2>Doomsday Cult <span>Leader/Overlord - Baton Rogue, LA - 1926-2010</span></h2>
-                <ul>
-                    <li>Inspired and won highest peasant death competition among servants</li>
-                    <li>Helped coordinate managers to grow cult following</li>
-                    <li>Provided untimely deaths to all who opposed</li>
-                </ul>
-                
-                <h2>The Watering Hole <span>Bartender/Server - Milwaukee, WI - 2009</span></h2>
-                <ul>
-                    <li>Worked on grass-roots promotional campaigns</li>
-                    <li>Reduced theft and property damage percentages</li>
-                    <li>Janitorial work, Laundry</li>
-                </ul> 
-            </dd>
-            
-            <dd class="clear"></dd>
-            
-            <dt>Hobbies</dt>
-            <dd>World Domination, Deep Sea Diving, Murder Most Foul</dd>
-            
-            <dd class="clear"></dd>
-            
-            <dt>References</dt>
-            <dd>Available on request</dd>
-            
-            <dd class="clear"></dd>
-        </dl>
-        <div class="clear"></div>
+        </section>
     </div>
 </body>
 

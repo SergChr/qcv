@@ -18,8 +18,8 @@ pub fn extract_resume(path: &str) -> Resume {
 }
 
 pub fn replace_html_vars(html: &str, resume: Resume) -> String {
-    let primitive_vars_re = Regex::new(r"\{\{(?:\s?+?)(\w+.+)(?:\s?+?)\}\}").unwrap();
-    let array_vars_re = Regex::new(r"\{!(?:\s?+)(.+)(?:\s?+)([\s\S\w\W]*)!\}").unwrap();
+    let primitive_vars_re = Regex::new(r"\{\{(?:\s?+?)([\w\.]+)(?:\s?+?)\}\}").unwrap();
+    let array_vars_re = Regex::new(r"\{!(?:\s?+)(.+)(?:\s?+)(.[^!]+)!\}").unwrap();
     let array_var_primitive_re = Regex::new(r"\{\s*(\w+)\s*\}").unwrap();
 
     let resume_in_json: serde_json::Value = serde_json::from_str(
@@ -41,13 +41,12 @@ pub fn replace_html_vars(html: &str, resume: Resume) -> String {
             let replaced = array_var_primitive_re.replace_all(&html, |c: &Captures| {
                 let key = c[1].to_string();
                 let res = value[key].to_string();
-                res
+                remove_quotes(&res)
             });
-            // println!("replaced: {:?}", replaced);
             replaced_html.push_str(&replaced);
         }
 
-        remove_quotes(&replaced_html.to_string()[..])
+        replaced_html
     });
 
     result.to_string()
@@ -56,18 +55,24 @@ pub fn replace_html_vars(html: &str, resume: Resume) -> String {
 // Helps to get nested value
 fn json_get(json: &serde_json::Value, key_str: String) -> serde_json::Value {
     let keys: Vec<String> = key_str.split(".").map(|s| s.to_string()).collect();
-    let mut result: &serde_json::Value = json.get(&keys[0]).unwrap();
+    let mut result: &serde_json::Value = json.get(&keys[0])
+        .expect("Invalid key used in the HTML template");
 
     for key in &keys {
         if key == &keys[0] {
             continue;
         }
-        let value = result.get(key).unwrap();
-        if value.is_string() || value.is_object() || value.is_number() {
-            result = value;
-        } else {
-            result = value;
-            break;
+        let value = result.get(key);
+        match value {
+            Some(v) => {
+                if v.is_string() || v.is_object() || v.is_number() {
+                    result = v;
+                } else {
+                    result = v;
+                    break;
+                }
+            }
+            None => (),
         }
     }
 
