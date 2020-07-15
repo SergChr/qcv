@@ -12,13 +12,23 @@ const OUTPUT_HTML_FILE_NAME: &str = "cv.html";
 struct Asset;
 
 pub fn init() {
-    let command = std::env::args().nth(1)
-        .expect("No command given");
+    let command = match std::env::args().nth(1) {
+        Some(cmd) => cmd,
+        None => "help".to_string(),
+    };
     match command.as_str() {
         "init" => create_json(),
         "build" => build_template(),
-        _ => (),
+        _ => help(),
     }
+}
+
+fn help() {
+    println!(r#"
+    Available commands:
+    - init -- create a default resume JSON template
+    - build -- generate a HTML file based on the cv.json template
+    "#);
 }
 
 fn create_json() {

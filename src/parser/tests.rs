@@ -63,7 +63,7 @@ mod test {
               ],
               "location": "Washington DC, US"
             }],
-            "skills": ["Web Development"],
+            "skills": [{ "name": "Web Development" }],
             "languages": [
               {
                 "language": "English",
@@ -101,7 +101,7 @@ mod test {
 
         let res_2 = json_get(&value, "skills".to_string());
         assert_eq!(res_2.is_array(), true);
-        assert_eq!(res_2.get(0).unwrap(), "Web Development");
+        assert_eq!(res_2.get(0).unwrap().get("name").unwrap(), "Web Development");
 
         let res_3 = json_get(&value, "languages".to_string());
         assert_eq!(res_3.is_array(), true);

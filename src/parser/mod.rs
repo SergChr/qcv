@@ -5,7 +5,6 @@ use std::fs;
 use std::io::prelude::*;
 use structs::Resume;
 use regex::{Regex, Captures};
-use serde_json::json;
 
 pub fn extract_resume(path: &str) -> Resume {
     let mut file = fs::File::open(path)

@@ -40,7 +40,7 @@
       ],
       "location": "Washington DC, US"
     }],
-    "skills": ["Web Development"],
+    "skills": [{ "name": "Web Development" }],
     "languages": [{
       "language": "English",
       "level": "Native speaker"
