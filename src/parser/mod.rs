@@ -1,9 +1,11 @@
 mod structs;
+mod tests;
 
 use std::fs;
 use std::io::prelude::*;
 use structs::Resume;
 use regex::{Regex, Captures};
+use serde_json::json;
 
 pub fn extract_resume(path: &str) -> Resume {
     let mut file = fs::File::open(path)
@@ -53,10 +55,13 @@ pub fn replace_html_vars(html: &str, resume: Resume) -> String {
 }
 
 // Helps to get nested value
-fn json_get(json: &serde_json::Value, key_str: String) -> serde_json::Value {
+pub fn json_get(json: &serde_json::Value, key_str: String) -> serde_json::Value {
     let keys: Vec<String> = key_str.split(".").map(|s| s.to_string()).collect();
+    let get_err_msg = |key: &String| {
+        format!("Invalid key used in the HTML template: \"{}\"; full path: \"{}\"", key, key_str)
+    };
     let mut result: &serde_json::Value = json.get(&keys[0])
-        .expect("Invalid key used in the HTML template");
+        .expect(&get_err_msg(&keys[0]));
 
     for key in &keys {
         if key == &keys[0] {
@@ -72,13 +77,13 @@ fn json_get(json: &serde_json::Value, key_str: String) -> serde_json::Value {
                     break;
                 }
             }
-            None => (),
+            None => panic!(get_err_msg(key)),
         }
     }
 
     result.to_owned()
 }
 
-fn remove_quotes(str: &str) -> String {
+pub fn remove_quotes(str: &str) -> String {
     str.replace("\"", "")
 }

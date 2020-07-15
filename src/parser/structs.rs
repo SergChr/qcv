@@ -6,7 +6,7 @@ pub struct Resume {
     pub work: Vec<Work>,
     pub projects: Vec<Project>,
     pub education: Vec<Education>,
-    pub skills: Vec<Skill>,
+    pub skills: Vec<String>,
     pub languages: Vec<Language>,
 }
 
@@ -61,12 +61,6 @@ pub struct Education {
     pub start_date: String,
     pub end_date: String,
     pub courses: Vec<String>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Skill {
-    pub name: String,
-    pub level: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
