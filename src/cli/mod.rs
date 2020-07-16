@@ -18,7 +18,8 @@ pub fn init() {
     };
     match command.as_str() {
         "init" => create_json(),
-        "build" => build_template(),
+        "build" => cmd_build(),
+        "build-from" => cmd_build_from(),
         _ => help(),
     }
 }
@@ -26,8 +27,14 @@ pub fn init() {
 fn help() {
     println!(r#"
     Available commands:
-    - init -- create a default resume JSON template
-    - build -- generate a HTML file based on the cv.json template
+    - init
+        Create a default resume JSON template. The output will be "cv.json" file where you should put your information.
+    - build <theme>
+        Generate a HTML file based on the cv.json file. The output will be "cv.html" file.
+        See the documentation for the list of available themes. Example of use: qcv build simple
+    - build-from <custom_html_path>
+        Generate a HTML file based on the cv.json BUT with your custom HTML theme.
+        Example: qcv build-from my_theme.html
     "#);
 }
 
@@ -46,18 +53,30 @@ fn create_json() {
     
 }
 
-fn build_template() {
+fn cmd_build_from() {
+    let theme_path = std::env::args().nth(2)
+        .expect("No theme path provided");
+    let html = fs::read_to_string(theme_path)
+        .expect("Cannot find the theme");
+    build_from_template(&html);
+}
+
+fn cmd_build() {
     let theme = std::env::args().nth(2)
-        .expect("No theme provided");
-    let resume = parser::extract_resume(JSON_FILE_NAME);
+        .expect("No theme name provided");
     let theme_path = format!("themes/{}/index.html", theme);
     let html_raw = Asset::get(&theme_path)
         .expect("Cannot find html file for the theme",);
-    let html_str = match std::str::from_utf8(html_raw.as_ref()) {
+    let html = match std::str::from_utf8(html_raw.as_ref()) {
         Ok(str) => str,
         Err(e) => panic!(e),
     };
-    let result = parser::replace_html_vars(html_str, resume);
+    build_from_template(html);
+}
+
+fn build_from_template(html: &str) {
+    let resume = parser::extract_resume(JSON_FILE_NAME);
+    let result = parser::replace_html_vars(html, resume);
 
     fs::write(OUTPUT_HTML_FILE_NAME, result)
         .expect("Cannot write the result to html file");
