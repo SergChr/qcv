@@ -10,7 +10,7 @@ No more `CV_1.pdf`, `CV_1_updated.pdf`, `CV_1_updated_for_facebook.pdf`.
 No need to move between different services that generate a resume or/and store it.
 
 #### Generating a simple portfolio website
-The tool generates a HTML file based on a HTML template that can be customizable(cooming soon).
+The tool generates a HTML file based on a HTML template that can be customizable.
 
 ## How does it work
 The tool replaces variables in a HTML template (see `src/assets/themes`) with corresponding values in the JSON template. Example:
@@ -137,9 +137,8 @@ To map array values, the syntax is:
 ```
 
 ## Installing
-From the most easier to use.
 #### Installing a crate
-If you have Cargo installed, download [qcv crate] and use it globally in a terminal.
+If you have Cargo installed, download [qcv crate](https://crates.io/crates/qcv) and use it globally in a terminal.
 ```sh
 $ cargo install qcv
 # Usage
@@ -164,7 +163,5 @@ $ git clone <repo>
 $ cargo run init
 
 # Build cv.html result based on cv.json
-$ cargo run build <theme>
-# Example
 $ cargo run build simple
 ```
