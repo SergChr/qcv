@@ -5,9 +5,17 @@ use regex::{Captures, Regex};
 use std::fs;
 use std::io::prelude::*;
 use structs::Resume;
+use crate::utils::logger;
 
 pub fn extract_resume(path: &str) -> Resume {
-    let mut file = fs::File::open(path).expect("Unable to read the JSON file");
+    let mut file;
+    match fs::File::open(path) {
+       Ok(f) => file = f,
+       Err(_e) => {
+            logger::write("Make sure you created 'cv.json' file in the root. Run 'qcv init'");
+            panic!("Unable to read JSON file");
+       },
+    };
     let mut content = String::new();
     file.read_to_string(&mut content)
         .expect("Unable to read the JSON file");
@@ -55,7 +63,6 @@ pub fn replace_html_vars(html: &str, resume: Resume) -> String {
 pub fn json_get(json: &serde_json::Value, key_str: &str) -> serde_json::Value {
     use serde_json::Value;
     let keys: Vec<&str> = key_str.split(".").collect();
-    eprintln!("{:?}", keys);
     let get_err_msg = |key: &str| {
         format!(
             "Invalid key used in the HTML template: \"{}\"; full path: \"{}\"",

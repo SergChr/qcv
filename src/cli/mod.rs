@@ -1,6 +1,7 @@
 use std::fs;
 use std::io::prelude::*;
 use rust_embed::RustEmbed;
+use std::path::Path;
 
 use crate::parser;
 
@@ -77,7 +78,18 @@ fn cmd_build() {
 fn build_from_template(html: &str) {
     let resume = parser::extract_resume(JSON_FILE_NAME);
     let result = parser::replace_html_vars(html, resume);
+    let write_file = || {
+        fs::write(OUTPUT_HTML_FILE_NAME, result)
+            .expect("Cannot write the result to html file");
+    };
 
-    fs::write(OUTPUT_HTML_FILE_NAME, result)
-        .expect("Cannot write the result to html file");
+    let is_html_exists = Path::new(OUTPUT_HTML_FILE_NAME).exists();
+    if is_html_exists {
+        match fs::remove_file(OUTPUT_HTML_FILE_NAME) {
+            Ok(()) => write_file(),
+            Err(_e) => panic!("Cannot rewrite the HTML file"),
+        };
+    } else {
+        write_file();
+    }
 }

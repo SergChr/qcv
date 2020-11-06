@@ -10,7 +10,7 @@ No more `CV_1.pdf`, `CV_1_updated.pdf`, `CV_1_updated_for_facebook.pdf`.
 No need to move between different services that generate a resume or/and store it.
 
 #### Generating a simple portfolio website
-The tool generates a HTML file based on a HTML template that can be customizable.
+The tool generates a HTML file based on a HTML template that can be customized.
 
 ## How does it work
 The tool replaces variables in a HTML template (see `src/assets/themes`) with corresponding values in the JSON template. Example:
