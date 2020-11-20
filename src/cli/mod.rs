@@ -1,8 +1,10 @@
 use std::fs;
 use std::io::prelude::*;
 use rust_embed::RustEmbed;
+use std::path::Path;
 
 use crate::parser;
+use crate::utils::logger;
 
 const JSON_FILE_NAME: &str = "cv.json";
 const OUTPUT_HTML_FILE_NAME: &str = "cv.html";
@@ -45,7 +47,7 @@ fn create_json() {
             Ok(f) => f,
             Err(_err) => panic!("Cannot create a JSON file. Probably it already exists.")
         };
-    println!("File created.");
+    logger::write("File created.");
     let template = Asset::get("cv_template.json")
         .expect("Cannot read the CV template file");
     file.write(&template)
@@ -77,7 +79,19 @@ fn cmd_build() {
 fn build_from_template(html: &str) {
     let resume = parser::extract_resume(JSON_FILE_NAME);
     let result = parser::replace_html_vars(html, resume);
+    let write_file = || {
+        fs::write(OUTPUT_HTML_FILE_NAME, result)
+            .expect("Cannot write the result to html file");
+        logger::write("Successfully created HTML(see cv.html).");
+    };
 
-    fs::write(OUTPUT_HTML_FILE_NAME, result)
-        .expect("Cannot write the result to html file");
+    let is_html_exists = Path::new(OUTPUT_HTML_FILE_NAME).exists();
+    if is_html_exists {
+        match fs::remove_file(OUTPUT_HTML_FILE_NAME) {
+            Ok(()) => write_file(),
+            Err(_e) => panic!("Cannot rewrite the HTML file"),
+        };
+    } else {
+        write_file();
+    }
 }

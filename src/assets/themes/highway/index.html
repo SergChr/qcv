@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+     <title>{{basics.name}}'s resume</title>
+     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+     <style type="text/css">
+        * { margin: 0; padding: 0; }
+     </style>
+</head>
+
+<body class="h-screen">
+    <div class="flex flex-col md:flex-row bg-gray-900 h-full py-8">
+        <div class="flex-1 text-gray-700 justify-start flex-col h-auto mx-3">
+            <div class="bg-gray-100 w-full h-auto mb-5 rounded-md p-5 leading-9">
+                <div class="font-bold text-4xl">{{basics.name}}</div>
+                <div class="text-xl text-gray-600">{{basics.label}}</div>
+                <hr class="my-5">
+                <div class="font-light">{{basics.location.address}} {{basics.location.city}}, {{basics.location.country}}</div>
+                <div class="font-light">
+                    <a href="mailto:{{basics.email}}">{{basics.email}}</a>
+                    | {{basics.phone}}
+                    <br>
+                    <a href="{{basics.website}}" class="underline">{{basics.website}}</a>
+                </div>
+                <hr class="my-4">
+                <div>
+                    {!basics.profiles
+                        <a class="font-light mx-2" href="{url}">{network}:{username}</a>
+                    !}
+                </div>
+            </div>
+
+            <div class="bg-gray-100 w-full h-auto mb-5 rounded-md p-5">
+                <div class="font-light leading-9">{{basics.summary}}</div>
+                <hr class="my-4">
+
+                <div class="flex">
+                    {!skills
+                        <div class="text-sm bg-gray-800 p-2 text-gray-100 rounded-md mx-2">{name}</div>
+                    !}
+                </div>
+
+                <hr class="my-4">
+                <div class="font-light">Languages</div>
+                {!languages
+                    <div class="flex flex-col px-4 py-2 m-2">
+                        <div class="font-bold">{language}</div>
+                        <div class="font-light">{level}</div>
+                    </div>
+                !}
+            </div>
+        </div>
+
+        <div class="flex-1 text-gray-700 justify-start flex-col h-auto mx-3">
+            <div class="bg-gray-100 w-full h-auto mb-5 rounded-md p-5 leading-7">
+                <div class="text-lg">Education</div>
+                <hr class="my-4">
+                {!education
+                    <div class="font-bold uppercase">{institution}</div>
+                    <div class="font-thin text-xs my-1">{location}</div>
+                    <div>{area} - {study_type} | {start_date} - {end_date}</div>
+                !}
+            </div>
+
+            <div class="bg-gray-100 w-full h-auto mb-5 rounded-md p-5 leading-7">
+                <div class="text-lg">Work experience</div>
+                <hr class="my-4">
+                {!work
+                    <a href="{website}" class="font-bold uppercase">{company}</a>
+                    <div class="font-thin my-1">{position} | {start_date} - {end_date}</div>
+                    <div>{summary}</div>
+                    <hr class="my-4">
+                !}
+            </div>
+        </div>
+
+        <div class="flex-1 text-gray-700 justify-start flex-col h-auto mx-3">
+            <div class="bg-gray-100 w-full h-auto mb-5 rounded-md p-5 leading-7">
+                <div class="text-lg">Projects</div>
+                <hr class="my-4">
+                {!projects
+                    <div class="font-bold">{name}</div>
+                    <div class="font-light text-sm">{description}</div>
+                !}
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
