@@ -4,6 +4,7 @@ use rust_embed::RustEmbed;
 use std::path::Path;
 
 use crate::parser;
+use crate::utils::logger;
 
 const JSON_FILE_NAME: &str = "cv.json";
 const OUTPUT_HTML_FILE_NAME: &str = "cv.html";
@@ -46,7 +47,7 @@ fn create_json() {
             Ok(f) => f,
             Err(_err) => panic!("Cannot create a JSON file. Probably it already exists.")
         };
-    println!("File created.");
+    logger::write("File created.");
     let template = Asset::get("cv_template.json")
         .expect("Cannot read the CV template file");
     file.write(&template)
@@ -81,6 +82,7 @@ fn build_from_template(html: &str) {
     let write_file = || {
         fs::write(OUTPUT_HTML_FILE_NAME, result)
             .expect("Cannot write the result to html file");
+        logger::write("Successfully created HTML(see cv.html).");
     };
 
     let is_html_exists = Path::new(OUTPUT_HTML_FILE_NAME).exists();
